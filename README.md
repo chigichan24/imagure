@@ -4,7 +4,12 @@ measurement tool for raw image
 ## usage
 ```
 go build main.go measure.go
-./main.go [original.img path] [compare.img path]
+./main [original.img path] [compare.img path]
+```
+
+## help
+```
+./main -h
 ```
 
 ## measure data
