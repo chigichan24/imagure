@@ -50,7 +50,7 @@ func main() {
 		c = flag.String("compare", "compare.img", "the path of image which compare to original one")
 	)
 	flag.Parse()
-	fmt.Printf("original => %s, compare => %s\n",*o ,*c)
+	fmt.Printf("[file path] original => %s, compare => %s\n",*o ,*c)
 
 	originalImg, err := importImage(*o)
 	if err != nil {
@@ -62,6 +62,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("original => %d, compare => %d\n", len(originalImg), len(compareImg))
+	fmt.Printf("[file size] original => %d, compare => %d\n", len(originalImg), len(compareImg))
 
 }
