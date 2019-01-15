@@ -1,11 +1,21 @@
 package main
 
 import (
+	"encoding/binary"
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"os"
 )
+
+const BUFSIZE = 1024
+
+func float32FromBytes(bytes []byte) float32 {
+	bits := binary.LittleEndian.Uint32(bytes)
+	float := math.Float32frombits(bits)
+	return  float
+}
 
 func importImage(p string) ([]float32,error) {
 	file, err := os.Open(p)
@@ -13,7 +23,27 @@ func importImage(p string) ([]float32,error) {
 		return nil, err
 	}
 	defer file.Close()
-	return nil, nil
+	buf := make([]byte, BUFSIZE)
+	var r []float32
+	for {
+		n, err := file.Read(buf)
+		if n == 0 {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		//fmt.Println(buf[:n])
+		sliceSize := n
+		for i := 0; i < sliceSize; i += 4 {
+			end := i + 4
+			if sliceSize < end{
+				end = sliceSize
+			}
+			r = append(r, float32FromBytes(buf[i:end]))
+		}
+	}
+	return r, nil
 }
 
 func main() {
@@ -22,15 +52,18 @@ func main() {
 		c = flag.String("compare", "compare.img", "the path of image which compare to original one")
 	)
 	flag.Parse()
-	fmt.Printf("original => %s, compare => %s",*o ,*c)
+	fmt.Printf("original => %s, compare => %s\n",*o ,*c)
 
-
-	if _,err := importImage(*o); err != nil {
+	originalImg, err := importImage(*o)
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	if _,err := importImage(*c); err != nil {
+	compareImg, err := importImage(*c)
+	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Printf("original => %d, compare -> %d\n", len(originalImg), len(compareImg))
 
 }
