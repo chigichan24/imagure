@@ -16,3 +16,6 @@ go build main.go measure.go
 - [x] rmse
 - [x] psnr
 - [x] ssim
+
+## License
+MIT
