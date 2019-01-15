@@ -13,3 +13,7 @@
 
 # idea
 .idea/
+
+# raw image files
+*.raw
+*.img
