@@ -66,5 +66,6 @@ func main() {
 
 	fmt.Printf("PSNR => %f\n", calcPsnr(originalImg, compareImg))
 	fmt.Printf("RMSE => %f\n", calcRmse(originalImg, compareImg))
+	fmt.Printf("SSIM => %f\n", calcSsim(originalImg, compareImg))
 
 }
