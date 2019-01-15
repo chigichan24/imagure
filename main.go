@@ -33,12 +33,10 @@ func importImage(p string) ([]float32,error) {
 		if err != nil {
 			return nil, err
 		}
-		//fmt.Println(buf[:n])
-		sliceSize := n
-		for i := 0; i < sliceSize; i += 4 {
+		for i := 0; i < n; i += 4 {
 			end := i + 4
-			if sliceSize < end{
-				end = sliceSize
+			if n < end{
+				end = n
 			}
 			r = append(r, float32FromBytes(buf[i:end]))
 		}
@@ -64,6 +62,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("original => %d, compare -> %d\n", len(originalImg), len(compareImg))
+	fmt.Printf("original => %d, compare => %d\n", len(originalImg), len(compareImg))
 
 }
