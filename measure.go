@@ -1,22 +1,24 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
-func calcPsnr(a []float32, b []float32) float64 {
+func calcPsnr(a []float64, b []float64) float64 {
 	errSum := 0.0
 	mx := 0.0
 	for i := range a {
-		errSum += float64(a[i]-b[i]) * float64(a[i]-b[i])
-		mx = math.Max(mx, float64(a[i]))
+		errSum += (a[i]-b[i]) * (a[i]-b[i])
+		mx = math.Max(mx, a[i])
 	}
 	mse := errSum / float64(len(a))
 	return 20 * math.Log10(mx/math.Sqrt(mse))
 }
 
-func calcRmse(a []float32, b []float32) float64 {
+func calcRmse(a []float64, b []float64) float64 {
 	errSum := 0.0
 	for i := range a {
-		errSum += float64(a[i]-b[i]) * float64(a[i]-b[i])
+		errSum += (a[i]-b[i]) * (a[i]-b[i])
 	}
 	mse := errSum / float64(len(a))
 	return math.Sqrt(mse)
@@ -34,10 +36,10 @@ func mirror(x int, min int, max int) int {
 	return x
 }
 
-func calcSsim(a []float32, b []float32) float64 {
+func calcSsim(a []float64, b []float64) float64 {
 	mx := 0.0
 	for _, v := range a {
-		mx = math.Max(mx, float64(v))
+		mx = math.Max(mx, v)
 	}
 
 	sum := 0.0
@@ -63,8 +65,8 @@ func calcSsim(a []float32, b []float32) float64 {
 					mx := mirror(x+dx, 0, w)
 					my := mirror(y+dy, 0, h)
 
-					ave1 += float64(a[mx+my*w])
-					ave2 += float64(b[mx+my*w])
+					ave1 += a[mx+my*w]
+					ave2 += b[mx+my*w]
 				}
 			}
 
@@ -76,9 +78,9 @@ func calcSsim(a []float32, b []float32) float64 {
 					mx := mirror(x+dx, 0, w)
 					my := mirror(y+dy, 0, h)
 
-					var1 += (float64(a[mx+my*w]) - ave1) * (float64(a[mx+my*w]) - ave1)
-					var2 += (float64(b[mx+my*w]) - ave2) * (float64(b[mx+my*w]) - ave2)
-					cov += (float64(a[mx+my*w]) - ave1) * (float64(b[mx+my*w]) - ave2)
+					var1 += (a[mx+my*w] - ave1) * (a[mx+my*w] - ave1)
+					var2 += (b[mx+my*w] - ave2) * (b[mx+my*w] - ave2)
+					cov += (a[mx+my*w] - ave1) * (b[mx+my*w] - ave2)
 				}
 			}
 
