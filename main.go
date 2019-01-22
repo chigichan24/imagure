@@ -103,6 +103,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Printf("[file size] original => %d, compare => %d\n", len(originalImg), len(compareImg))
 
 		fmt.Printf("PSNR => %f\n", calcPsnr(originalImg, compareImg))
 		fmt.Printf("RMSE => %f\n", calcRmse(originalImg, compareImg))
